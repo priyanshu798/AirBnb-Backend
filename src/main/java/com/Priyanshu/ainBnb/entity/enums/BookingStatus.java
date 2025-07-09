@@ -1,6 +1,6 @@
 package com.Priyanshu.ainBnb.entity.enums;
 
-public enum BookingSatus {
+public enum BookingStatus {
     RESERVED,
     CONFIRMED,
     CANCELLED

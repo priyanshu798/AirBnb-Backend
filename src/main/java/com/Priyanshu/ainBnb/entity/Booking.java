@@ -1,6 +1,6 @@
 package com.Priyanshu.ainBnb.entity;
 
-import com.Priyanshu.ainBnb.entity.enums.BookingSatus;
+import com.Priyanshu.ainBnb.entity.enums.BookingStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -52,7 +52,7 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private BookingSatus bookingSatus;
+    private BookingStatus bookingStatus;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

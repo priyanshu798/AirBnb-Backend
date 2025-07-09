@@ -1,5 +1,6 @@
 package com.Priyanshu.ainBnb.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -40,7 +41,11 @@ public class Hotel {
     @Column(nullable = false)
     private  boolean active;
 
-    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "hotel", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Room> rooms;
+
+    @ManyToOne
+    private User owner;
 
 }
