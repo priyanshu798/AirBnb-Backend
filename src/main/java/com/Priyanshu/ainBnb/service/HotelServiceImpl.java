@@ -1,6 +1,8 @@
 package com.Priyanshu.ainBnb.service;
 
 import com.Priyanshu.ainBnb.dto.HotelDto;
+import com.Priyanshu.ainBnb.dto.HotelInfoDto;
+import com.Priyanshu.ainBnb.dto.RoomDto;
 import com.Priyanshu.ainBnb.entity.Hotel;
 import com.Priyanshu.ainBnb.entity.Room;
 import com.Priyanshu.ainBnb.exception.ResourceNotFoundException;
@@ -11,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -75,7 +79,7 @@ public class HotelServiceImpl implements HotelService {
 
     @Override
     @Transactional
-    public void acitvateHotel(Long id) {
+    public void activateHotel(Long id) {
         log.info("Activating the hotel info by id: {}", id);
         Hotel hotel = hotelRepository
                 .findById(id)
@@ -86,5 +90,17 @@ public class HotelServiceImpl implements HotelService {
         for (Room room : hotel.getRooms()) {
             inventoryService.initializeRoomForAYear(room);
         }
+    }
+
+    @Override
+    public HotelInfoDto getHotelInfoById(Long hotelId) {
+        Hotel hotel = hotelRepository
+                .findById(hotelId)
+                .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with id: " + hotelId));
+        List<RoomDto> rooms = hotel.getRooms()
+                .stream()
+                .map((element) -> modelMapper.map(element, RoomDto.class)).toList();
+
+        return new HotelInfoDto(modelMapper.map(hotel, HotelDto.class), rooms);
     }
 }

@@ -42,7 +42,7 @@ public class HotelController {
 
     @PatchMapping("/{hotelId}")
     public ResponseEntity<Void> activateHotel(@PathVariable("hotelId") Long id) {
-        hotelService.acitvateHotel(id);
+        hotelService.activateHotel(id);
         return ResponseEntity.noContent().build();
     }
 

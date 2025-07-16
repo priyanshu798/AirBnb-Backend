@@ -2,6 +2,7 @@ package com.Priyanshu.ainBnb.service;
 
 
 import com.Priyanshu.ainBnb.dto.HotelDto;
+import com.Priyanshu.ainBnb.dto.HotelInfoDto;
 
 
 public interface HotelService {
@@ -14,7 +15,8 @@ public interface HotelService {
 
     void deleteHotelById(Long id);
 
-    void acitvateHotel(Long id);
+    void activateHotel(Long id);
 
 
+    HotelInfoDto getHotelInfoById(Long hotelId);
 }
