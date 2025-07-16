@@ -24,5 +24,5 @@ public class BookingDto {
 
     private BookingStatus bookingStatus;
 
-    private Set<Guest> guests;
+    private Set<GuestDto> guests;
 }
