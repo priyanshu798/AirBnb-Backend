@@ -5,6 +5,7 @@ import com.Priyanshu.ainBnb.entity.Hotel;
 import com.Priyanshu.ainBnb.entity.Room;
 import com.Priyanshu.ainBnb.exception.ResourceNotFoundException;
 import com.Priyanshu.ainBnb.repository.HotelRepository;;
+import com.Priyanshu.ainBnb.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -21,6 +22,8 @@ public class HotelServiceImpl implements HotelService {
     private final ModelMapper modelMapper;
 
     private final InventoryService inventoryService;
+
+    private final RoomRepository roomRepository;
 
     @Override
     public HotelDto createNewHotel(HotelDto hotelDto) {
@@ -61,11 +64,12 @@ public class HotelServiceImpl implements HotelService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with id: " + id));
 
-        hotelRepository.deleteById(id);
-        //delete the future inventories for this hotel
+        //delete all the inventories for this hotel and rooms  for this hotel
         for (Room room : hotel.getRooms()) {
-            inventoryService.deleteFutureInventories(room);
+            inventoryService.deletaAllInventories(room);
+            roomRepository.deleteById(room.getId());
         }
+        hotelRepository.deleteById(id);
 
     }
 
