@@ -2,6 +2,7 @@ package com.Priyanshu.ainBnb.controller;
 
 import com.Priyanshu.ainBnb.dto.HotelDto;
 import com.Priyanshu.ainBnb.dto.HotelInfoDto;
+import com.Priyanshu.ainBnb.dto.HotelPriceDto;
 import com.Priyanshu.ainBnb.dto.HotelSearchRequest;
 import com.Priyanshu.ainBnb.service.HotelService;
 import com.Priyanshu.ainBnb.service.InventoryService;
@@ -22,8 +23,8 @@ public class HotelBrowseController {
     private final HotelService hotelService;
 
     @GetMapping("/search")
-    public ResponseEntity<Page<HotelDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest) {
-        Page<HotelDto> page = inventoryService.searchHotels(hotelSearchRequest);
+    public ResponseEntity<Page<HotelPriceDto>> searchHotels(@RequestBody HotelSearchRequest hotelSearchRequest) {
+        Page<HotelPriceDto> page = inventoryService.searchHotels(hotelSearchRequest);
         return ResponseEntity.ok(page);
     }
 
