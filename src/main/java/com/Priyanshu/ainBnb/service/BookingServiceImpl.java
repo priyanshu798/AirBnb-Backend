@@ -6,10 +6,12 @@ import com.Priyanshu.ainBnb.dto.GuestDto;
 import com.Priyanshu.ainBnb.entity.*;
 import com.Priyanshu.ainBnb.entity.enums.BookingStatus;
 import com.Priyanshu.ainBnb.exception.ResourceNotFoundException;
+import com.Priyanshu.ainBnb.exception.UnauthorizedException;
 import com.Priyanshu.ainBnb.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,6 +87,12 @@ public class BookingServiceImpl implements  BookingService{
         //reserve booking for 10 minutes
         Booking booking = bookingRepository.findById(bookingId).orElseThrow(()
         -> new ResourceNotFoundException("Booking not found with id: "+ bookingId));
+        User user = getCurrentUser();
+
+        if (!user.equals(booking.getUser())) {
+            throw new UnauthorizedException("Booking does not belong to user with this id: " +user.getId());
+        }
+
         if (hasBookingExpired(booking)) {
             throw  new IllegalStateException("Booking has already expired");
         }
@@ -109,8 +117,6 @@ public class BookingServiceImpl implements  BookingService{
     }
 
     public User getCurrentUser() {
-        User user = new User();
-        user.setId(1l);//TODO: remove dummy user
-        return user;
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

@@ -3,12 +3,15 @@ package com.Priyanshu.ainBnb.service;
 import com.Priyanshu.ainBnb.dto.RoomDto;
 import com.Priyanshu.ainBnb.entity.Hotel;
 import com.Priyanshu.ainBnb.entity.Room;
+import com.Priyanshu.ainBnb.entity.User;
 import com.Priyanshu.ainBnb.exception.ResourceNotFoundException;
+import com.Priyanshu.ainBnb.exception.UnauthorizedException;
 import com.Priyanshu.ainBnb.repository.HotelRepository;
 import com.Priyanshu.ainBnb.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +34,12 @@ public class RoomServiceImpl implements RoomService{
         Hotel hotel = hotelRepository
                 .findById(hotelId)
                 .orElseThrow(() -> new ResourceNotFoundException("Hotel not found with id: " + hotelId));
+
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!user.equals(hotel.getOwner())) {
+            throw new UnauthorizedException("This user does not own this hotel with id "+hotelId);
+        }
+
         Room room = modelMapper.map(roomDto, Room.class);
         room.setHotel(hotel);
         room = roomRepository.save(room);
@@ -73,11 +82,14 @@ public class RoomServiceImpl implements RoomService{
                 .findById(roomId)
                         .orElseThrow(() -> new ResourceNotFoundException("Room not found with id: "+roomId));
 
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!user.equals(room.getHotel().getOwner())) {
+            throw new UnauthorizedException("This user does not own this room with id "+room.getId());
+        }
 
         //delete all future inventories of this room
         inventoryService.deletaAllInventories(room);
         roomRepository.deleteById(roomId);
-
 
     }
 }

@@ -1,6 +1,7 @@
 package com.Priyanshu.ainBnb.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -45,7 +46,7 @@ public class Hotel {
     @JsonIgnore
     private List<Room> rooms;
 
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User owner;
 
 }
