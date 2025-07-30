@@ -4,6 +4,7 @@ import com.Priyanshu.ainBnb.entity.*;
 import com.Priyanshu.ainBnb.entity.enums.BookingStatus;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -25,4 +26,5 @@ public class BookingDto {
     private BookingStatus bookingStatus;
 
     private Set<GuestDto> guests;
+    private BigDecimal amount;
 }

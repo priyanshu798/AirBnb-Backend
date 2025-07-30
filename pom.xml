@@ -90,6 +90,12 @@
 			<version>0.11.5</version> <!-- Use the latest stable version -->
 			<scope>runtime</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.stripe/stripe-java -->
+		<dependency>
+			<groupId>com.stripe</groupId>
+			<artifactId>stripe-java</artifactId>
+			<version>29.3.0</version>
+		</dependency>
 
 
 	</dependencies>
