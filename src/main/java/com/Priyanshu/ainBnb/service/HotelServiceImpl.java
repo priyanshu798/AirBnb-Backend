@@ -13,11 +13,15 @@ import com.Priyanshu.ainBnb.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.Priyanshu.ainBnb.util.AppUtils.getCurrentUser;
 
 @Service
 @Slf4j
@@ -130,4 +134,18 @@ public class HotelServiceImpl implements HotelService {
 
         return new HotelInfoDto(modelMapper.map(hotel, HotelDto.class), rooms);
     }
+
+    @Override
+    public List<HotelDto> getAllHotels() {
+
+        User user = getCurrentUser();
+        log.info("Getting all hotels for admin user with user id : {}", user.getId());
+        List<Hotel> hotels = hotelRepository.findByOwner(user);
+
+        return hotels.stream()
+                .map((element) -> modelMapper.map(element, HotelDto.class))
+                .collect(Collectors.toList());
+
+    }
+
 }

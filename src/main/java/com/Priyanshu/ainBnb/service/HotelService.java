@@ -3,6 +3,9 @@ package com.Priyanshu.ainBnb.service;
 
 import com.Priyanshu.ainBnb.dto.HotelDto;
 import com.Priyanshu.ainBnb.dto.HotelInfoDto;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 
 public interface HotelService {
@@ -19,4 +22,6 @@ public interface HotelService {
 
 
     HotelInfoDto getHotelInfoById(Long hotelId);
+
+    List<HotelDto> getAllHotels();
 }
