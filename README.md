@@ -127,7 +127,7 @@ mvn spring-boot:run
 
 The app will start on [**http://localhost:8080/api/v1**](http://localhost:8080/api/v1)
 
-### 4️⃣ Explore Swagger Docs
+### 4️⃣ "After the backend is running, ypu can explore Swagger Docs at
 
 Visit:
 
